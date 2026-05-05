@@ -1,1 +1,81 @@
-
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyM+k/WZ+wemWFAovaNywbIz",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/vermilion000/MyPython/blob/main/Pydantic/pydantic_notebook\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# **Pydantic :**\n",
+        "**Pydantic** is used for Dataparsing,DataValidation and Data Coercion.\n",
+        "\n",
+        "BaseModel: Class provided in pydantic to be used as base class for our model.It has support for validation, serialization and parsing .\n",
+        "\n",
+        "Model: Python class that imports baseclass from pydantic that will contain our fields and validations\n",
+        "\n",
+        "Fields : variables of class that will validated with annotated type"
+      ],
+      "metadata": {
+        "id": "trvGMuziU6kg"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 12,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "u3QSuySGTE4J",
+        "outputId": "c3c15770-821d-4614-de59-61661cf4e27b"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Pablo\n"
+          ]
+        }
+      ],
+      "source": [
+        "#!pip install pydantic           #uncomment if pydantic is not installed\n",
+        "from typing import Optional\n",
+        "from pydantic import BaseModel,Field   #importing BaseModel Class\n",
+        "\n",
+        "class Candidate(BaseModel):\n",
+        "  name:str        #this is called type annotation\n",
+        "  age :int = 20   #default value\n",
+        "  sex :Optional[int] = None#Optional field which can be optional argument\n",
+        "  weight : int = Field(ge = 45,le = 95)  #limiting field values for validation\n",
+        "  full_name:str = Field(pattern = r'^[a-zA-z]+$',min_length=1,max_length = 20) #String limits\n",
+        "\n",
+        "c = Candidate(name = \"Pablo\", weight = 75,full_name = \"Pabloescobar\" )\n",
+        "print(c.name)"
+      ]
+    }
+  ]
+}
