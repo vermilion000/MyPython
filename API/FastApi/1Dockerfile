@@ -1,0 +1,21 @@
+# 1. Use a Windows base image with Python pre-installed
+FROM python:3.11-windowsservercore-ltsc2022
+
+# 2. Set the working directory inside the container
+WORKDIR C:\app
+
+# 3. Copy your project files (including requirements.txt) into the container
+COPY . .
+
+# 4. Download and install 'uv' using PowerShell
+RUN powershell -ExecutionPolicy Bypass -Command "irm https://astral.sh/uv/install.ps1 | iex"
+
+# 5. Permanently update the system PATH so Docker can find the 'uv' binary
+ENV PATH="C:\Users\ContainerUser\.local\bin;${PATH}"
+
+# 6. Initialize uv and install dependencies
+RUN uv init --no-workspace
+RUN uv add --requirements requirements.txt
+
+# 7. Define the default runtime command
+CMD ["uv", "run", "main.py"]
